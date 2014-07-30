@@ -438,12 +438,28 @@ func (plan *QueryPlan) Count() (int64, error) {
 }
 
 func (plan *QueryPlan) CountDistinct(fields ...interface{}) (int64, error) {
+	if len(fields) == 0 {
+		return plan.countDistinctAll()
+	}
+	return plan.countDistinct(fields...)
+}
+
+func (plan *QueryPlan) countDistinctAll() (int64, error) {
 	buffer := new(bytes.Buffer)
-	buffer.WriteString("select count(distinct")
+	buffer.WriteString("select count(*) from (")
+	buffer.WriteString("select distinct *")
+	if err := plan.writeSelectSuffix(buffer); err != nil {
+		return -1, err
+	}
+	buffer.WriteString(") as distinctAll")
+	return plan.executor.SelectInt(buffer.String(), plan.args...)
+}
+
+func (plan *QueryPlan) countDistinct(fields ...interface{}) (int64, error) {
+	buffer := new(bytes.Buffer)
+	buffer.WriteString("select count(distinct(")
 	for index, field := range fields {
-		if index == 0 {
-			buffer.WriteString("(")
-		} else {
+		if index > 0 {
 			buffer.WriteString(",")
 		}
 		column, err := plan.colMap.LocateTableAndColumn(field)
@@ -452,7 +468,10 @@ func (plan *QueryPlan) CountDistinct(fields ...interface{}) (int64, error) {
 		}
 		buffer.WriteString(column)
 	}
-	buffer.WriteString(")")
+	buffer.WriteString("))")
+	if err := plan.writeSelectSuffix(buffer); err != nil {
+		return -1, err
+	}
 	return plan.executor.SelectInt(buffer.String(), plan.args...)
 }
 
