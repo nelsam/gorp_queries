@@ -10,8 +10,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/nelsam/gorp_queries/filters"
-	"github.com/nelsam/gorp_queries/interfaces"
+	"gopkg.in/nelsam/gorpqueries.v0/filters"
+	"gopkg.in/nelsam/gorpqueries.v0/interfaces"
 	"github.com/stretchr/testify/suite"
 	_ "github.com/ziutek/mymysql/godrv"
 )

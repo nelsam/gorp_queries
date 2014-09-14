@@ -2,8 +2,8 @@ package gorp_queries
 
 import (
 	"github.com/nelsam/gorp"
-	"github.com/nelsam/gorp_queries/interfaces"
-	"github.com/nelsam/gorp_queries/query_plans"
+	"gopkg.in/nelsam/gorpqueries.v0/interfaces"
+	"gopkg.in/nelsam/gorpqueries.v0/query_plans"
 )
 
 type SqlExecutor interface {
