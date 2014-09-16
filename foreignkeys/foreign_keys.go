@@ -19,7 +19,7 @@
 //     foreign_keys.Register(communications.Message{}, "User", new(User))
 // }
 // ```
-package foreign_keys
+package foreignkeys
 
 import (
 	"errors"

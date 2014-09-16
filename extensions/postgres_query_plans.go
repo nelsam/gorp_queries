@@ -6,7 +6,7 @@ import (
 	"github.com/nelsam/gorp"
 	"gopkg.in/nelsam/gorpqueries.v0/filters"
 	"gopkg.in/nelsam/gorpqueries.v0/interfaces"
-	"gopkg.in/nelsam/gorpqueries.v0/query_plans"
+	"gopkg.in/nelsam/gorpqueries.v0/queryplans"
 )
 
 type pgJsonSelectWrapper struct {
@@ -126,16 +126,16 @@ type Postgres interface {
 // PostgresExtendedQueryPlan is a QueryPlan that supports some of
 // postgresql's extensions to the SQL standard.
 type PostgresExtendedQueryPlan struct {
-	*query_plans.QueryPlan
+	*queryplans.QueryPlan
 }
 
-func PostgresPlan(query *query_plans.QueryPlan) interface{} {
+func PostgresPlan(query *queryplans.QueryPlan) interface{} {
 	return &PostgresExtendedQueryPlan{QueryPlan: query}
 }
 
 func (plan *PostgresExtendedQueryPlan) Assign(fieldPtr interface{}, value interface{}) PostgresAssignQuery {
 	assignPlan := plan.QueryPlan.Assign(fieldPtr, value)
-	return &PostgresExtendedAssignQueryPlan{AssignQueryPlan: assignPlan.(*query_plans.AssignQueryPlan)}
+	return &PostgresExtendedAssignQueryPlan{AssignQueryPlan: assignPlan.(*queryplans.AssignQueryPlan)}
 }
 
 func (plan *PostgresExtendedQueryPlan) Join(table interface{}) PostgresJoinQuery {
@@ -193,7 +193,7 @@ func (plan *PostgresExtendedJoinQueryPlan) NotNull(fieldPtr interface{}) Postgre
 }
 
 type PostgresExtendedAssignQueryPlan struct {
-	*query_plans.AssignQueryPlan
+	*queryplans.AssignQueryPlan
 }
 
 func (plan *PostgresExtendedAssignQueryPlan) Assign(fieldPtr interface{}, value interface{}) PostgresAssignQuery {
@@ -256,5 +256,5 @@ func (plan *PostgresExtendedAssignJoinQueryPlan) NotNull(fieldPtr interface{}) P
 }
 
 func init() {
-	query_plans.RegisterExtension(gorp.PostgresDialect{}, PostgresPlan)
+	queryplans.RegisterExtension(gorp.PostgresDialect{}, PostgresPlan)
 }

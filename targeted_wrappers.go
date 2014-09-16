@@ -1,1 +1,1 @@
-package gorp_queries
+package gorpqueries

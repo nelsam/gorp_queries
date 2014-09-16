@@ -1,9 +1,9 @@
-package gorp_queries
+package gorpqueries
 
 import (
 	"github.com/nelsam/gorp"
 	"gopkg.in/nelsam/gorpqueries.v0/interfaces"
-	"gopkg.in/nelsam/gorpqueries.v0/query_plans"
+	"gopkg.in/nelsam/gorpqueries.v0/queryplans"
 )
 
 type SqlExecutor interface {
@@ -52,7 +52,7 @@ type DbMap struct {
 // capable of.
 func (m *DbMap) Query(target interface{}) interfaces.Query {
 	gorpMap := &m.DbMap
-	return query_plans.Query(gorpMap, gorpMap, target)
+	return queryplans.Query(gorpMap, gorpMap, target)
 }
 
 // Begin acts just like "github.com/nelsam/gorp".DbMap.Begin,
@@ -76,5 +76,5 @@ type Transaction struct {
 // documentation.
 func (t *Transaction) Query(target interface{}) interfaces.Query {
 	gorpMap := &t.dbmap.DbMap
-	return query_plans.Query(gorpMap, &t.Transaction, target)
+	return queryplans.Query(gorpMap, &t.Transaction, target)
 }

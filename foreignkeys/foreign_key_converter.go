@@ -1,4 +1,4 @@
-package foreign_keys
+package foreignkeys
 
 import (
 	"reflect"

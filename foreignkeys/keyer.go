@@ -1,4 +1,4 @@
-package foreign_keys
+package foreignkeys
 
 // A Keyer is a type which can return its key for foreign key
 // relationships.

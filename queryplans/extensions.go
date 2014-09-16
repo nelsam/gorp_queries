@@ -1,4 +1,4 @@
-package query_plans
+package queryplans
 
 import (
 	"github.com/nelsam/gorp"
