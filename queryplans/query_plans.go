@@ -3,6 +3,7 @@ package queryplans
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"reflect"
 	"strings"
 
@@ -68,7 +69,7 @@ func (structMap structColumnMap) fieldMapForPointer(fieldPtr interface{}) (*fiel
 			return &fieldMap, nil
 		}
 	}
-	return nil, errors.New("gorp: Cannot find a field matching the passed in pointer")
+	return nil, fmt.Errorf("gorp: Cannot find a mapped field for this query matching the pointer %v", fieldPtr)
 }
 
 // A QueryPlan is a Query.  It returns itself on most method calls;
