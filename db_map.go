@@ -1,9 +1,9 @@
-package gorp_queries
+package gorpqueries
 
 import (
-	"github.com/coopernurse/gorp"
-	"github.com/nelsam/gorp_queries/interfaces"
-	"github.com/nelsam/gorp_queries/query_plans"
+	"github.com/nelsam/gorp"
+	"gopkg.in/nelsam/gorpqueries.v0/interfaces"
+	"gopkg.in/nelsam/gorpqueries.v0/queryplans"
 )
 
 type SqlExecutor interface {
@@ -11,7 +11,7 @@ type SqlExecutor interface {
 	Query(interface{}) interfaces.Query
 }
 
-// DbMap embeds "github.com/coopernurse/gorp".DbMap and adds query
+// DbMap embeds "github.com/nelsam/gorp".DbMap and adds query
 // methods to it.
 type DbMap struct {
 	gorp.DbMap
@@ -52,10 +52,10 @@ type DbMap struct {
 // capable of.
 func (m *DbMap) Query(target interface{}) interfaces.Query {
 	gorpMap := &m.DbMap
-	return query_plans.Query(gorpMap, gorpMap, target)
+	return queryplans.Query(gorpMap, gorpMap, target)
 }
 
-// Begin acts just like "github.com/coopernurse/gorp".DbMap.Begin,
+// Begin acts just like "github.com/nelsam/gorp".DbMap.Begin,
 // except that its return type is gorp_queries.Transaction.
 func (m *DbMap) Begin() (*Transaction, error) {
 	t, err := m.DbMap.Begin()
@@ -65,7 +65,7 @@ func (m *DbMap) Begin() (*Transaction, error) {
 	return &Transaction{Transaction: *t, dbmap: m}, nil
 }
 
-// Transaction embeds "github.com/coopernurse/gorp".Transaction and
+// Transaction embeds "github.com/nelsam/gorp".Transaction and
 // adds query methods to it.
 type Transaction struct {
 	gorp.Transaction
@@ -75,5 +75,6 @@ type Transaction struct {
 // Query runs a query within a transaction.  See DbMap.Query for full
 // documentation.
 func (t *Transaction) Query(target interface{}) interfaces.Query {
-	return query_plans.Query(&t.dbmap.DbMap, &t.Transaction, target)
+	gorpMap := &t.dbmap.DbMap
+	return queryplans.Query(gorpMap, &t.Transaction, target)
 }

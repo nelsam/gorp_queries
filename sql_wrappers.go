@@ -1,8 +1,8 @@
-package gorp_queries
+package gorpqueries
 
 import (
 	"fmt"
-	"github.com/nelsam/gorp_queries/filters"
+	"gopkg.in/nelsam/gorpqueries.v0/filters"
 )
 
 type functionWrapper struct {
