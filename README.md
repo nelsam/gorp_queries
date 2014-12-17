@@ -4,6 +4,15 @@
 gorp_queries
 ============
 
+### DEPRECATION:
+
+This package is being deprecated in favor of
+[gorq](https://github.com/nelsam/gorq).  I warned before that the name
+was subject to change, and that's happened (primarily because I
+completely forgot about the package naming guidelines in Effective Go).
+In addition, I will be creating a fork at `go-gorq/gorq` specifically
+for `gopkg.in` support, so that `go get gopkg.in/gorq.v1` will work.
+
 ### WARNING:
 
 This extension is very new.  It was originally written directly in the
